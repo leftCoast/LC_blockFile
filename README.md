@@ -16,6 +16,8 @@ Or you can just tell your blockFile object to delete the ID. It’ll takes care 
 
 One last thing..
 
-So far, this is like trying to open the crate that encloses the crowbar you need to open the crate.  If all your information is stored in the blockFile. How do you know what your block IDs are?
+If you really think about it, this is like trying to open the crate that encloses the crowbar you need to open the crate.  If all your information is stored in the blockFile. How do you know what your block IDs are?
 
 The FIRST ID passed back from a blockFile object, is saved as its rootID. You can ask for the rootID and it’ll pass it back to you. The trick is to save, under this ID, the information necessary to decode the rest of your file.
+
+

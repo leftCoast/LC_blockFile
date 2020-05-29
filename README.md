@@ -38,10 +38,28 @@ The FIRST ID passed back from a blockFile object, is saved as its rootID. You ca
 
 **NOTE :** Use the first block allocated ( Known as the root ID. ) to store the information you will need to decode the rest of your file. Because you can always get back the root ID with the readRootBlockID() call.  
 
-```ourRootID = readRootBlockID();```  
+```ourRootID = ourFile->readRootBlockID();```  
 
-**3 :** An alternate way to aquire a block ID, without having to save a datablock, is using the getNewBlockID() method. This will allocate a file ID that you can use in the writeBlock() method.  
-```newID = getNewBlockID();```  
+**3 :** An alternate way to aquire a block ID, without having to save a datablock, is using the getNewBlockID() method. This will allocate a file ID that can later be used with the writeBlock() method.  
+```
+newID = ourFile->getNewBlockID();
+success = ourFile->writeBlock(newID,dataPtr,numBytes);
+```  
+
+**Retrieving a block of data.**
+
+**1 :** First step would be to see how many bytes this block of data is. Use the getBlockSize() method for this.  
+```numBytes = ourFile->getBlockSize(blockID);```  
+
+**2 :** After allocating a buffer large enough to fit the data block. Retrieve it using the getBlock() method.  
+```haveBlock = ourFile->getBlock(blockID,dataPtr,blockID);```  
+
+
+**Deleting a block of data.**
+
+**1 :** Use the deleteBlock() method to delete a datablock out of a blockFile.  
+```blockDeleted = ourFile->deleteBlock(blockID);```  
+
 
 
 

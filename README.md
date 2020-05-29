@@ -2,7 +2,7 @@
 Tools for manipulating as SD file like RAM. Manages multiple blocks of data in a single file.
 
 
-The LC_blockFile library enables you create a blockFile object that manages a file like it was a gigantic heap of RAM.
+**LC_blockFile overview :** The LC_blockFile library enables you create a blockFile object that manages a file like it was a gigantic heap of RAM.
 
 The blockFile object associates itself to a single file on your SD card. A blockFile object is created with a fullpath to a file that it either creates, or has already been created.
 

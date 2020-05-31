@@ -30,7 +30,7 @@ The FIRST ID passed back from a blockFile object, is saved as its rootID. You ca
 
 **Saving a block of data.**
 
-**1 :**  For saving a new block of data that's never been saved before, call the addBlock() method. This allocates a new block ID for the new datablock then saves the data block under that new ID. Upon completion the new ID is returned.
+**1 :**  For saving a new block of data that's never been saved before, call the addBlock() method. This allocates a new block ID for the new datablock then saves the data block under that new ID. Upon completion the new ID is returned.  
 ```newID = ourFile->addBlock(dataBlockPtr,numBytes);```  
 
 **2 :** To save a datablock that already has a data block ID assigned to it use the writeBlock() method. This method takes an ID and stores a datablock to it.  

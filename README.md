@@ -1,7 +1,7 @@
 # LC_blockFile
 Tools for manipulating as SD file like RAM. Manages multiple blocks of data in a single file.  
 
-**Depeneds on**
+**Depends on**  
 Arduino SD library.
 
 **LC_blockFile overview :** The LC_blockFile library enables you create a blockFile object that manages a file like it was a gigantic heap of RAM.

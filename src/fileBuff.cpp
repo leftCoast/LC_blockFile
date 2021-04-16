@@ -63,11 +63,10 @@ bool fileBuff::saveToFile(void) {
 		if (saveSubFileBuffs()) {
 			numBytes = calculateBuffSize();
 			if (numBytes>0) {
-				mBuff = (char*)malloc(numBytes);
-				if (mBuff) {
+				if (resizeBuff(numBytes,&mBuff)) {
 					writeToBuff(mBuff,numBytes);
 					success = mFile->writeBlock(mID,mBuff,numBytes);
-					free(mBuff);
+					resizeBuff(0,&mBuff);
 					mBuff = NULL;
 				}
 			}
@@ -90,13 +89,12 @@ bool fileBuff::readFromFile(void) {
   if (mFile) {
     numBytes = mFile->getBlockSize(mID);
     if (numBytes) {
-      mBuff = (char*)malloc(numBytes);
-      if (mBuff) {
+      if (resizeBuff(numBytes,&mBuff)) {
         if (mFile->getBlock(mID,mBuff,numBytes)) {
           loadFromBuff(mBuff,numBytes);
           success = true;
         }
-        free(mBuff);
+        resizeBuff(0,&mBuff);
         mBuff = NULL;
       }
     }

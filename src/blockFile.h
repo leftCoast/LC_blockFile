@@ -2,6 +2,7 @@
 #define blockFile_h
 
 #include <SD.h>
+#include <resizeBuff.h>
 
 // blockFile.. This is an object that will manage a file on an SD card much like dynamic
 // memory. You ask for a file block ID. From that you can store, retrieve, delete or

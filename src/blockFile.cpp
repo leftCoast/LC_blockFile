@@ -7,8 +7,8 @@ blockFile::blockFile(char* inFilePath) {
   mFileReady = false;                                 // Is the file ready? Well, not yet.
   mDelete = false;                                    // We want to delete this file? Not yet.
   mErr = BF_NO_ERR;                                   // No errors yet..
-  mFilePath = (char*) malloc(strlen(inFilePath) + 1); // Try to save off file path.
-  if (mFilePath) {                                    // If we got the memory..
+  mFilePath = NULL;												// Initialize pointer to NULL so we can resize them later.
+  if (resizeBuff(strlen(inFilePath)+1,&mFilePath)) {	// If we got the memory..
     strcpy(mFilePath, inFilePath);                    // Lets use it.
     initBlockfile();                                  // See if we can open and use this file.
   } else {                                            // Couldn't get the memory?
@@ -26,7 +26,7 @@ blockFile::~blockFile(void) {
         SD.remove(mFilePath);       // This is where we tell the system to delete the file.
       }
     }
-    free(mFilePath);                // Release the memory for the path string.
+    resizeBuff(0,&mFilePath);       // Release the memory for the path string.
   }
 }
 

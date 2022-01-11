@@ -23,7 +23,7 @@ If you really think about it, this is like trying to open the crate that enclose
 The FIRST ID passed back from a blockFile object, is saved as its rootID. You can ask for the rootID and it’ll pass it back to you. The trick is to save, under this ID, the information necessary to decode the rest of your file.  
 
 
-**How to use this?** A blockfile is created using a full path for a datafile. Either a blockfile, empty file or no file at all. If its no file at all, blockfile will create an empty one for you. **NOTE :** blockFiles can not be created globally. IE. Before the start() function has been called. **blockfiles must be created after the SD hardware has been initilized.** If you need a global blockfile, and most do, declare a global pointer to a blockFile, then create the actual blockfile object after initialization of the SD library.  
+**How to use this?** A blockfile is created using a full path for a datafile. Either a blockfile, empty file or no file at all. If its no file at all, blockfile will create an empty one for you. **NOTE :** blockFiles can not be created globally. IE. Before the setup() function has been called. **blockfiles must be created after the SD hardware has been initilized.** If you need a global blockfile, and most do, declare a global pointer to a blockFile, then create the actual blockfile object after initialization of the SD library.  
 ```blockFile* ourFile;``` Global pointer..
 
 ```ourFile = new blockFile(fullPath);```  Creation after SD drive is initialized.  

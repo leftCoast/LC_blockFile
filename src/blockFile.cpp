@@ -1,7 +1,7 @@
 #include "blockFile.h"
 
 // You start off with a full file path string. This associates our object with a file on
-// the SD drive. It will create a new file if neccissary.
+// the SD drive. It will create a new file if necessary.
 blockFile::blockFile(char* inFilePath) {
 
   mFileReady = false;                                 // Is the file ready? Well, not yet.

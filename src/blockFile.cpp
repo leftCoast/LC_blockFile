@@ -2,7 +2,7 @@
 
 // You start off with a full file path string. This associates our object with a file on
 // the SD drive. It will create a new file if necessary.
-blockFile::blockFile(char* inFilePath) {
+blockFile::blockFile(const char* inFilePath) {
 
   mFileReady = false;                                 // Is the file ready? Well, not yet.
   mDelete = false;                                    // We want to delete this file? Not yet.
@@ -32,36 +32,33 @@ blockFile::~blockFile(void) {
 
 
 // Hand back the ID of your first block of data. When designing your
-// project, use this block to store the info you need to decode the rest.
+// project, use this block to store the info. you need to decode the rest.
 // return of 0 means that this is an empty file.
-unsigned long blockFile::readRootBlockID(void) {
-
-  return mHeader.rootID;
-}
+unsigned long blockFile::readRootBlockID(void) { return mHeader.rootID; }
 
 
-// This is for pre-assigning new data block IDs.
-// Sometimes you need them before you can store them.
+// This is for pre-assigning new data block IDs. Sometimes you need them before you can
+// store them. If this is a empty file? The ID handed our will be saved as the root ID.
 unsigned long  blockFile::getNewBlockID(void) {
 
   unsigned long ID;
 
-  ID = mHeader.nextID;        // Save off the ID to use.
-  if (!mHeader.rootID) {   // If this is the first buffer handed out..
-    mHeader.rootID = ID;   // Save its ID. This'll be the one used to decode this mess.
-  }
-  mHeader.nextID++;           // Increment it.
-  if (fOpen()) {
-    writeFileHeader();          // Save it.
-    fClose();
-  }
-  return ID;                  // We already have it so ignore any errors.
+  ID = mHeader.nextID;		// Save off the ID to use.
+  if (!mHeader.rootID) {	// If this is the first buffer handed out..
+    mHeader.rootID = ID;	// Save its ID. This'll be the one used to decode this mess.
+  }								//
+  mHeader.nextID++;			// Increment it.
+  if (fOpen()) {				// If we can open the file..
+    writeFileHeader();		// Save it the next ID.
+    fClose();					// Snap that baby shut!
+  }								//
+  return ID;					// We already have it, so ignore any errors.
 }
 
 
 // Create a new file block using this buffer.
 // Passing back a zero means there was an error.
-unsigned long blockFile::addBlock(char* buffPtr, unsigned long bytes) {
+unsigned long blockFile::addBlock(const char* buffPtr, unsigned long bytes) {
 
   unsigned long ID;
 
@@ -94,7 +91,7 @@ bool blockFile::deleteBlock(unsigned long blockID) {
 
 // Update or create this numbered file block to match this buffer.
 // If the buffer actually contains something.
-bool blockFile::writeBlock(unsigned long blockID, char* buffPtr, unsigned long bytes) {
+bool blockFile::writeBlock(unsigned long blockID, const char* buffPtr, unsigned long bytes) {
 
 	blockHeader   tempBlock;
 	unsigned long remainigBytes;
@@ -166,7 +163,7 @@ unsigned long  blockFile::getBlockSize(unsigned long blockID) {
 
 // Fill buffer with contents of file block.
 // Buffer can be smaller, but you'll get the end bytes truncated.
-bool blockFile::getBlock(unsigned long blockID, char* buffPtr, unsigned long bytes) {
+bool blockFile::getBlock(unsigned long blockID, const char* buffPtr, unsigned long bytes) {
 
   blockHeader   tempBlock;
 
@@ -322,7 +319,7 @@ bool  blockFile::peekBlockHeader(blockHeader* aBlock) {
 
   success = false;
   if (mErr == BF_NO_ERR) {                                            // Don't bother with broken file.
-    bytesRead = mFile.read((char*)&tempBlock, sizeof(blockHeader));   // Make a grab at the block.
+    bytesRead = mFile.read((const char*)&tempBlock, sizeof(blockHeader));   // Make a grab at the block.
     if (bytesRead == sizeof(blockHeader)) {                           // See if we got a whole header.
       if (mFile.seek(mFile.position() - sizeof(blockHeader))) {       // Return pointer to beginning of block.
         aBlock->blockID = tempBlock.blockID;                          // Save off the bits.
@@ -349,7 +346,7 @@ bool blockFile::writeBlockHeader(unsigned long inBlockID, unsigned long numBytes
   if (mErr == BF_NO_ERR) {                                                // Ok, don't bother if its already broke.
     tempBlock.blockID = inBlockID;                                        // To make the code easier, we write it into a block.
     tempBlock.bytes = numBytes;                                           // This makes it just one big write out.
-    bytesWritten = mFile.write((char*)&tempBlock, sizeof(blockHeader));   // Write the bytes.
+    bytesWritten = mFile.write((const char*)&tempBlock, sizeof(blockHeader));   // Write the bytes.
     if (bytesWritten == sizeof(blockHeader)) {                            // All the bytes get out?
       return true;                                                        // Everything seems fine.
     } else {
@@ -362,7 +359,7 @@ bool blockFile::writeBlockHeader(unsigned long inBlockID, unsigned long numBytes
 
 // We are pointing at where we want to save this data buffer. Write it here and
 // pass back if it worked. Leave the poiner at the end of the saved data.
-bool blockFile::writeBlockData(char* buffPtr, unsigned long bytes) {
+bool blockFile::writeBlockData(const char* buffPtr, unsigned long bytes) {
 
   unsigned long bytesWritten;
 
@@ -502,7 +499,7 @@ bool  blockFile::findEnd(void) {
 // Set our local header to initial condition of a new file.
 void blockFile::initFileHeader(void) {
 
-  strcpy((char*)mHeader.nameTag, BLOCKFILE_TAG);	// Init the header.
+  strcpy((const char*)mHeader.nameTag, BLOCKFILE_TAG);	// Init the header.
   mHeader.versionNum = CURRENT_BLOCKFILE_VERSION;	// Set the version number.
   mHeader.rootID = 0;										// Zero means not set yet.
   mHeader.nextID = INITIAL_BLOCKFILE_ID;				// Set the next ID value.
@@ -516,7 +513,7 @@ bool blockFile::writeFileHeader(void) {
 
   if (mErr == BF_NO_ERR) {																		// Don't bother if its broken.
     if (mFile.seek(0)) {                                                      // Set to the start of the file.
-      bytesWritten = mFile.write((char*)&mHeader, sizeof(blockFileHeader));   // Write the bytes here.
+      bytesWritten = mFile.write((const char*)&mHeader, sizeof(blockFileHeader));   // Write the bytes here.
       if (bytesWritten == sizeof(blockFileHeader)) {                          // All the bytes get out?
         return true;                                                          // Everything seems fine.
       } else {

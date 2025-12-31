@@ -53,24 +53,24 @@ struct blockHeader {
 class blockFile {
 
   public:
-          blockFile(char* inFilePath);
+          blockFile(const char* inFilePath);
   virtual ~blockFile(void);
 
-			  unsigned long   readRootBlockID(void);                        // HINT : You store the information you need to decode your file in here.
-			  unsigned long   getNewBlockID(void);                          // The first blockID issued to you, will be saved as your initial block.
-			  unsigned long   addBlock(char* buffPtr,unsigned long bytes);  // That can come from  getNewBlockID() or addBlock().
+			  unsigned long   readRootBlockID(void);										// HINT : You store the information you need to decode your file in here.
+			  unsigned long   getNewBlockID(void);											// The first blockID issued to you, will be saved as your initial block.
+			  unsigned long   addBlock(const char* buffPtr,unsigned long bytes);	// That can come from  getNewBlockID() or addBlock().
 			  bool            deleteBlock(unsigned long blockID);
   
-			  bool            writeBlock(unsigned long blockID,char* buffPtr,unsigned long bytes);  // I have my ID, put this buffer in there.
-			  unsigned long   getBlockSize(unsigned long blockID);                                  // How much did I store in there? I forget..
-			  bool            getBlock(unsigned long blockID,char* buffPtr,unsigned long bytes);    // Here's my ID and a buffer, give me my data.
+			  bool            writeBlock(unsigned long blockID,const char* buffPtr,unsigned long bytes);	// I have my ID, put this buffer in there.
+			  unsigned long   getBlockSize(unsigned long blockID);													// How much did I store in there? I forget..
+			  bool            getBlock(unsigned long blockID,const char* buffPtr,unsigned long bytes);	// Here's my ID and a buffer, give me my data.
  
 			  void            cleanup(unsigned long allowedMs);                                     // Not written yet.
 			  void            deleteBlockfile(void);                                                // Mark file to be erased when object is deleted.
 			  int             checkErr(bool clearErr=false);                                        // Lets see what the last error was?
 			  bool            isEmpty(void);                                                        // No data buffers.
   
-			  //protected :
+	protected :
   
 			  void            printDataBlock(blockHeader* aBlock);	// For debug.
 			  void				printFile(void);								// For debug.
@@ -78,7 +78,7 @@ class blockFile {
 			  void            fClose(void);
 			  bool            peekBlockHeader(blockHeader* aBlock);
 			  bool            writeBlockHeader(unsigned long inBlockID,unsigned long numBytes);
-			  bool            writeBlockData(char* buffPtr,unsigned long bytes);
+			  bool            writeBlockData(const char* buffPtr,unsigned long bytes);
 
 			  bool            nextBlock(unsigned long numBytes);
 			  bool            findFirst(void);
@@ -92,7 +92,7 @@ class blockFile {
 			  void            initBlockfile(void);
   
 			  blockFileHeader mHeader;
-			  char*           mFilePath;
+			  char*     		mFilePath;
 			  File            mFile;
 			  bool            mFileReady;
 			  bool            mDelete;

@@ -163,7 +163,7 @@ unsigned long  blockFile::getBlockSize(unsigned long blockID) {
 
 // Fill buffer with contents of file block.
 // Buffer can be smaller, but you'll get the end bytes truncated.
-bool blockFile::getBlock(unsigned long blockID, const char* buffPtr, unsigned long bytes) {
+bool blockFile::getBlock(unsigned long blockID, char* buffPtr, unsigned long bytes) {
 
   blockHeader   tempBlock;
 
@@ -319,7 +319,7 @@ bool  blockFile::peekBlockHeader(blockHeader* aBlock) {
 
   success = false;
   if (mErr == BF_NO_ERR) {                                            // Don't bother with broken file.
-    bytesRead = mFile.read((const char*)&tempBlock, sizeof(blockHeader));   // Make a grab at the block.
+    bytesRead = mFile.read((char*)&tempBlock, sizeof(blockHeader));   // Make a grab at the block.
     if (bytesRead == sizeof(blockHeader)) {                           // See if we got a whole header.
       if (mFile.seek(mFile.position() - sizeof(blockHeader))) {       // Return pointer to beginning of block.
         aBlock->blockID = tempBlock.blockID;                          // Save off the bits.
@@ -499,7 +499,7 @@ bool  blockFile::findEnd(void) {
 // Set our local header to initial condition of a new file.
 void blockFile::initFileHeader(void) {
 
-  strcpy((const char*)mHeader.nameTag, BLOCKFILE_TAG);	// Init the header.
+  strcpy((char*)mHeader.nameTag, BLOCKFILE_TAG);	// Init the header.
   mHeader.versionNum = CURRENT_BLOCKFILE_VERSION;	// Set the version number.
   mHeader.rootID = 0;										// Zero means not set yet.
   mHeader.nextID = INITIAL_BLOCKFILE_ID;				// Set the next ID value.
@@ -537,7 +537,7 @@ bool blockFile::getFileHeader(void) {
   success = false;                                                    // Can't succeed unless you try.
   if (mErr == BF_NO_ERR) {                                            // Don't bother if its broken.
     if (mFile.seek(0)) {                                              // Set to the start of the file.
-      if (mFile.available() >= sizeof(blockFileHeader)) {             // We have enough bytes to read..
+      if (mFile.available() >= (int)sizeof(blockFileHeader)) {             // We have enough bytes to read..
         bytesread = mFile.read(&tempHeader, sizeof(blockFileHeader)); // Make a grab for it.
         if (bytesread == sizeof(blockFileHeader)) {                   // Make sure we got the complete set.
           if (!strcmp(tempHeader.nameTag, BLOCKFILE_TAG)) {           // We get a matching nametag?

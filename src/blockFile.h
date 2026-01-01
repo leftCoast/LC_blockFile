@@ -63,7 +63,7 @@ class blockFile {
   
 			  bool            writeBlock(unsigned long blockID,const char* buffPtr,unsigned long bytes);	// I have my ID, put this buffer in there.
 			  unsigned long   getBlockSize(unsigned long blockID);													// How much did I store in there? I forget..
-			  bool            getBlock(unsigned long blockID,const char* buffPtr,unsigned long bytes);	// Here's my ID and a buffer, give me my data.
+			  bool            getBlock(unsigned long blockID,char* buffPtr,unsigned long bytes);			// Here's my ID and a buffer, give me my data.
  
 			  void            cleanup(unsigned long allowedMs);                                     // Not written yet.
 			  void            deleteBlockfile(void);                                                // Mark file to be erased when object is deleted.

@@ -58,7 +58,7 @@ unsigned long  blockFile::getNewBlockID(void) {
 
 // Create a new file block using this buffer.
 // Passing back a zero means there was an error.
-unsigned long blockFile::addBlock(const char* buffPtr, unsigned long bytes) {
+unsigned long blockFile::addBlock(uint8_t* buffPtr, unsigned long bytes) {
 
   unsigned long ID;
 
@@ -91,7 +91,7 @@ bool blockFile::deleteBlock(unsigned long blockID) {
 
 // Update or create this numbered file block to match this buffer.
 // If the buffer actually contains something.
-bool blockFile::writeBlock(unsigned long blockID, const char* buffPtr, unsigned long bytes) {
+bool blockFile::writeBlock(unsigned long blockID,uint8_t* buffPtr, unsigned long bytes) {
 
 	blockHeader   tempBlock;
 	unsigned long remainigBytes;
@@ -163,7 +163,7 @@ unsigned long  blockFile::getBlockSize(unsigned long blockID) {
 
 // Fill buffer with contents of file block.
 // Buffer can be smaller, but you'll get the end bytes truncated.
-bool blockFile::getBlock(unsigned long blockID, char* buffPtr, unsigned long bytes) {
+bool blockFile::getBlock(unsigned long blockID,uint8_t* buffPtr, unsigned long bytes) {
 
   blockHeader   tempBlock;
 
@@ -319,7 +319,7 @@ bool  blockFile::peekBlockHeader(blockHeader* aBlock) {
 
   success = false;
   if (mErr == BF_NO_ERR) {                                            // Don't bother with broken file.
-    bytesRead = mFile.read((char*)&tempBlock, sizeof(blockHeader));   // Make a grab at the block.
+    bytesRead = mFile.read((uint8_t*)&tempBlock, sizeof(blockHeader));   // Make a grab at the block.
     if (bytesRead == sizeof(blockHeader)) {                           // See if we got a whole header.
       if (mFile.seek(mFile.position() - sizeof(blockHeader))) {       // Return pointer to beginning of block.
         aBlock->blockID = tempBlock.blockID;                          // Save off the bits.
@@ -346,7 +346,7 @@ bool blockFile::writeBlockHeader(unsigned long inBlockID, unsigned long numBytes
   if (mErr == BF_NO_ERR) {                                                // Ok, don't bother if its already broke.
     tempBlock.blockID = inBlockID;                                        // To make the code easier, we write it into a block.
     tempBlock.bytes = numBytes;                                           // This makes it just one big write out.
-    bytesWritten = mFile.write((const char*)&tempBlock, sizeof(blockHeader));   // Write the bytes.
+    bytesWritten = mFile.write((uint8_t*)&tempBlock, sizeof(blockHeader));   // Write the bytes.
     if (bytesWritten == sizeof(blockHeader)) {                            // All the bytes get out?
       return true;                                                        // Everything seems fine.
     } else {
@@ -359,7 +359,7 @@ bool blockFile::writeBlockHeader(unsigned long inBlockID, unsigned long numBytes
 
 // We are pointing at where we want to save this data buffer. Write it here and
 // pass back if it worked. Leave the poiner at the end of the saved data.
-bool blockFile::writeBlockData(const char* buffPtr, unsigned long bytes) {
+bool blockFile::writeBlockData(uint8_t* buffPtr, unsigned long bytes) {
 
   unsigned long bytesWritten;
 
@@ -513,7 +513,7 @@ bool blockFile::writeFileHeader(void) {
 
   if (mErr == BF_NO_ERR) {																		// Don't bother if its broken.
     if (mFile.seek(0)) {                                                      // Set to the start of the file.
-      bytesWritten = mFile.write((const char*)&mHeader, sizeof(blockFileHeader));   // Write the bytes here.
+      bytesWritten = mFile.write((uint8_t*)&mHeader, sizeof(blockFileHeader));   // Write the bytes here.
       if (bytesWritten == sizeof(blockFileHeader)) {                          // All the bytes get out?
         return true;                                                          // Everything seems fine.
       } else {
@@ -538,7 +538,7 @@ bool blockFile::getFileHeader(void) {
   if (mErr == BF_NO_ERR) {                                            // Don't bother if its broken.
     if (mFile.seek(0)) {                                              // Set to the start of the file.
       if (mFile.available() >= (int)sizeof(blockFileHeader)) {             // We have enough bytes to read..
-        bytesread = mFile.read(&tempHeader, sizeof(blockFileHeader)); // Make a grab for it.
+        bytesread = mFile.read((uint8_t*)&tempHeader, sizeof(blockFileHeader)); // Make a grab for it.
         if (bytesread == sizeof(blockFileHeader)) {                   // Make sure we got the complete set.
           if (!strcmp(tempHeader.nameTag, BLOCKFILE_TAG)) {           // We get a matching nametag?
             if (tempHeader.versionNum == CURRENT_BLOCKFILE_VERSION) { // Is the version number ok?

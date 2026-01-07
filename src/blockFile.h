@@ -58,12 +58,12 @@ class blockFile {
 
 			  unsigned long   readRootBlockID(void);										// HINT : You store the information you need to decode your file in here.
 			  unsigned long   getNewBlockID(void);											// The first blockID issued to you, will be saved as your initial block.
-			  unsigned long   addBlock(const char* buffPtr,unsigned long bytes);	// That can come from  getNewBlockID() or addBlock().
+			  unsigned long   addBlock(uint8_t* buffPtr,unsigned long bytes);	// That can come from  getNewBlockID() or addBlock().
 			  bool            deleteBlock(unsigned long blockID);
   
-			  bool            writeBlock(unsigned long blockID,const char* buffPtr,unsigned long bytes);	// I have my ID, put this buffer in there.
+			  bool            writeBlock(unsigned long blockID,uint8_t* buffPtr,unsigned long bytes);	// I have my ID, put this buffer in there.
 			  unsigned long   getBlockSize(unsigned long blockID);													// How much did I store in there? I forget..
-			  bool            getBlock(unsigned long blockID,char* buffPtr,unsigned long bytes);			// Here's my ID and a buffer, give me my data.
+			  bool            getBlock(unsigned long blockID,uint8_t* buffPtr,unsigned long bytes);			// Here's my ID and a buffer, give me my data.
  
 			  void            cleanup(unsigned long allowedMs);                                     // Not written yet.
 			  void            deleteBlockfile(void);                                                // Mark file to be erased when object is deleted.
@@ -78,7 +78,7 @@ class blockFile {
 			  void            fClose(void);
 			  bool            peekBlockHeader(blockHeader* aBlock);
 			  bool            writeBlockHeader(unsigned long inBlockID,unsigned long numBytes);
-			  bool            writeBlockData(const char* buffPtr,unsigned long bytes);
+			  bool            writeBlockData(uint8_t* buffPtr,unsigned long bytes);
 
 			  bool            nextBlock(unsigned long numBytes);
 			  bool            findFirst(void);

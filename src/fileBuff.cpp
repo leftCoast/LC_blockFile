@@ -34,11 +34,11 @@ unsigned long fileBuff::calculateBuffSize(void) { return 0; }
 
 
 // Inherited will overwrite this one.
-void fileBuff::writeToBuff(char* buffPtr,unsigned long maxBytes) {  }
+void fileBuff::writeToBuff(uint8_t* buffPtr,unsigned long maxBytes) {  }
 
 
 // Inherited will overwrite this one.
-unsigned long fileBuff::loadFromBuff(char* buffPtr,unsigned long maxBytes) { return 0; }
+unsigned long fileBuff::loadFromBuff(uint8_t* buffPtr,unsigned long maxBytes) { return 0; }
 
 
 // Inherited MAY overwrite this one.

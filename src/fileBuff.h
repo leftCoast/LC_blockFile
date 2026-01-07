@@ -39,8 +39,8 @@ class fileBuff {
 
 				unsigned	long	getID(void);
 	virtual	unsigned	long	calculateBuffSize(void);
-	virtual	void				writeToBuff(char* buffPtr,unsigned long maxBytes);
-	virtual	unsigned	long	loadFromBuff(char* buffPtr,unsigned long maxBytes);
+	virtual	void				writeToBuff(uint8_t* buffPtr,unsigned long maxBytes);
+	virtual	unsigned	long	loadFromBuff(uint8_t* buffPtr,unsigned long maxBytes);
 	virtual	bool				saveSubFileBuffs(void);
 	virtual	void				eraseFromFile(void);
 				bool				saveToFile(void);
@@ -49,7 +49,7 @@ class fileBuff {
 				
 				unsigned long	mID;
 				blockFile*		mFile;
-				char*				mBuff;
+				uint8_t*			mBuff;
 };
 
 #endif

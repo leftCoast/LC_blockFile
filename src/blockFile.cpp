@@ -292,11 +292,15 @@ void blockFile::printFile(void) {
 // This will be the standard opening.
 bool blockFile::fOpen(void) {
 
-  mFile = SD.open(mFilePath, FILE_WRITE);
+  mFile = SD.open(mFilePath, (O_READ | O_WRITE | O_CREAT));
   if (!mFile) {
     mErr = BF_FOPEN_ERR;
+    Serial.print("FAILED TO OPEN : ");
+    Serial.println(mFilePath);
     return false;
   }
+  Serial.print("Looks like we opened : ");
+  Serial.println(mFilePath);
   return true;
 }
 

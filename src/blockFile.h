@@ -56,19 +56,19 @@ class blockFile {
           blockFile(const char* inFilePath);
   virtual ~blockFile(void);
 
-			  unsigned long   readRootBlockID(void);										// HINT : You store the information you need to decode your file in here.
-			  unsigned long   getNewBlockID(void);											// The first blockID issued to you, will be saved as your initial block.
-			  unsigned long   addBlock(uint8_t* buffPtr,unsigned long bytes);	// That can come from  getNewBlockID() or addBlock().
+			  unsigned long   readRootBlockID(void);																	// HINT : You store the information you need to decode your file in here.
+			  unsigned long   getNewBlockID(void);																		// The first blockID issued to you, will be saved as your initial block.
+			  unsigned long   addBlock(uint8_t* buffPtr,unsigned long bytes);									// That can come from  getNewBlockID() or addBlock().
 			  bool            deleteBlock(unsigned long blockID);
   
 			  bool            writeBlock(unsigned long blockID,uint8_t* buffPtr,unsigned long bytes);	// I have my ID, put this buffer in there.
-			  unsigned long   getBlockSize(unsigned long blockID);													// How much did I store in there? I forget..
-			  bool            getBlock(unsigned long blockID,uint8_t* buffPtr,unsigned long bytes);			// Here's my ID and a buffer, give me my data.
+			  unsigned long   getBlockSize(unsigned long blockID);												// How much did I store in there? I forget..
+			  bool            getBlock(unsigned long blockID,uint8_t* buffPtr,unsigned long bytes);	// Here's my ID and a buffer, give me my data.
  
-			  void            cleanup(unsigned long allowedMs);                                     // Not written yet.
-			  void            deleteBlockfile(void);                                                // Mark file to be erased when object is deleted.
-			  int             checkErr(bool clearErr=false);                                        // Lets see what the last error was?
-			  bool            isEmpty(void);                                                        // No data buffers.
+			  void            cleanup(unsigned long allowedMs);													// Not written yet.
+			  void            deleteBlockfile(void);																	// Mark file to be erased when object is deleted.
+			  int             checkErr(bool clearErr=false);														// Lets see what the last error was?
+			  bool            isEmpty(void);																				// No data buffers.
   
 	protected :
   
